@@ -1,7 +1,8 @@
 # Tarefa 1 sobre APIs de acesso
 
-link
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mariliacss/mc536/master)
+
 
 # Tarefa 2 sobre Engenharia Reversa
 
-imagem
+![Image of Yaktocat](https://github.com/mariliacss/mc536/blob/master/lab01/images/tarefa2.png?raw=true)
