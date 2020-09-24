@@ -2,8 +2,6 @@
 
 [Tarefa 1](https://github.com/mariliacss/mc536/blob/master/lab01/notebook/data-api-python.ipynb)
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mariliacss/mc536/master)
-
 
 # Tarefa 2 sobre Engenharia Reversa
 
