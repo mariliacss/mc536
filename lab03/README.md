@@ -2,4 +2,4 @@
 
 ![fluxograma](https://github.com/mariliacss/mc536/blob/master/lab03/images/fluxograma.JPG)
 
-[Link para a tarefa](https://github.com/mariliacss/mc536/blob/master/lab01/notebook/data-api-python.ipynb)
+[Link para o arquivo do orange](https://github.com/mariliacss/mc536/blob/master/lab03/orange/lab03.ows)
