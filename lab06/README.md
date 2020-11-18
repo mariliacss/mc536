@@ -48,7 +48,7 @@ Construa um grafo ligando os medicamentos aos efeitos colaterais (com pesos asso
 
 ### Resolução
 
-Criando os nós de Pessoa
+Criando os nós de Person
 ```
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/santanche/lab2learn/master/data/faers-2017/drug-use.csv' AS line
 CREATE (:Person {code: line.idperson})
@@ -57,10 +57,28 @@ CREATE (:Person {code: line.idperson})
 CREATE INDEX ON :Person(code)
 ```
 
-Criando os nós de Pessoa
+Criando relacionamento Use entre Person e  Drug
 ```
 LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/santanche/lab2learn/master/data/faers-2017/drug-use.csv' AS line
-CREATE (:Person {code: line.idperson})
+MATCH (p:Person {code: line.idperson})
+MATCH (d:Drug {code: line.codedrug})
+CREATE (p)-[:Use {doenca: line.codepathology}]->(d)
+```
+
+Criando relacionamento Has entre Person e  Pathology
+```
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/santanche/lab2learn/master/data/faers-2017/sideeffect.csv' AS line
+MATCH (d:Person {code: line.idPerson})
+MATCH (p:Pathology {code: line.codePathology})
+CREATE (d)-[:Has]->(p)
+```
+
+Criando o relacionamento SideEffects entre Drug e Pathology
+```
+MATCH (d:Drug)<-[a]-(p:Person)-[b]->(s:Pathology)
+MERGE (d1)<-[r:SideEffect]->(d2)
+ON CREATE SET r.weight=1
+ON MATCH SET r.weight=r.weight+1
 ```
 
 ## Exercício 6
