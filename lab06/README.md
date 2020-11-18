@@ -47,8 +47,20 @@ ON MATCH SET r.weight=r.weight+1
 Construa um grafo ligando os medicamentos aos efeitos colaterais (com pesos associados) a partir dos registros das pessoas, ou seja, se uma pessoa usa um medicamento e ela teve um efeito colateral, o medicamento deve ser ligado ao efeito colateral.
 
 ### Resolução
+
+Criando os nós de Pessoa
 ```
-teste
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/santanche/lab2learn/master/data/faers-2017/drug-use.csv' AS line
+CREATE (:Person {code: line.idperson})
+```
+```
+CREATE INDEX ON :Person(code)
+```
+
+Criando os nós de Pessoa
+```
+LOAD CSV WITH HEADERS FROM 'https://raw.githubusercontent.com/santanche/lab2learn/master/data/faers-2017/drug-use.csv' AS line
+CREATE (:Person {code: line.idperson})
 ```
 
 ## Exercício 6
