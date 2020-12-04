@@ -1,4 +1,4 @@
-# Título
+# Modelo para Apresentação do Lab08 - PubChem e DRON com XQuery/XPath
 
 ## Questão 1
 
@@ -98,17 +98,22 @@ where $l = 'e-Science Domain' and $p/key=$c/@key
 return {data($p/title), '&#xa;'}
 ```
 
-## Questão 7
+# Tarefas com DRON e PubChem
+
+## Questão 1
 
 Liste todas as classificações que estão dois níveis abaixo da raiz
 
 Resolução
  
 ```
-SELECT nome FROM individuo WHERW idade>17
+let $dron:= doc('https://raw.githubusercontent.com/santanche/lab2learn/master/data/faers-2017-dron/dron.xml')
+
+for $n in ($dron/drug/drug/drug//@name)
+return {data($n), '&#xa;'}
 ```
 
-## Questão 8
+## Questão 2
 
 Apresente todas as classificações de um componente a sua escolha (diferente de Acetylsalicylic Acid) que estejam hierarquicamente dois níveis acima. Note que no exemplo dado em sala foi considerado um nível hierárquico acima.
 
@@ -116,14 +121,15 @@ Resolução
  
 ```
 let $dron:= doc('https://raw.githubusercontent.com/santanche/lab2learn/master/data/faers-2017-dron/dron.xml')
-for $d in ($dron//drug[drug//@name])
+
+for $d in ($dron//drug[drug/drug/@name='INSULIN GLARGINE'])
 let $parent := $d/@name
 group by $parent
 order by $parent
 return {data($parent), '&#xa;'}
 ```
 
-## Questão 9
+## Questão 3
 
 Dado o dataset integrado criado via acesso a serviços no Jupyter. Este notebook tem os nomes (e sinônimos) de componentes recuperados do PubChem, em conjunto com o ChEBI do mesmo.
 
@@ -135,28 +141,44 @@ Deve ser recuperado em XQuery no endereço:
 
 https://raw.githubusercontent.com/santanche/lab2learn/master/data/pubchem/pubchem-chebi-synonyms.xml
 
-### Questão 9.1
+### Questão 3.1
 
 Liste todos os códigos ChEBI dos componentes disponíveis.
 
 Resolução
  
 ```
-SELECT nome FROM individuo WHERW idade>17
+let $sinonimos:= doc('https://raw.githubusercontent.com/santanche/lab2learn/master/data/pubchem/pubchem-chebi-synonyms.xml')
+
+for $c in ($sinonimos/PC-DataSet/InformationList/Information/Synonym[1])
+
+return {data($c), '&#xa;'}
 ```
 
-### Questão 9.2
+### Questão 3.2
 Liste todos os códigos ChEBI e primeiro nome (sinônimo) de cada um dos componentes disponíveis.
 
 Resolução
 ```
-SELECT nome FROM individuo WHERE idade >20
+let $sinonimos:= doc('https://raw.githubusercontent.com/santanche/lab2learn/master/data/pubchem/pubchem-chebi-synonyms.xml')
+
+for $c in ($sinonimos/PC-DataSet/InformationList/Information/Synonym[1]),
+    $s in ($sinonimos/PC-DataSet/InformationList/Information/Synonym[2])
+
+return {data($c),',', data($s), '&#xa;'}
 ```
 
-### Questão 9.3
+### Questão 3.3
 Para cada código ChEBI, liste os sinônimos e o nome que aparece para o mesmo componente no DRON (se existir). Para isso faça um JOIN com o DRON.
 
 Resolução
 ```
-SELECT nome FROM individuo WHERE idade >20
+let $sinonimos:= doc('https://raw.githubusercontent.com/santanche/lab2learn/master/data/pubchem/pubchem-chebi-synonyms.xml')
+let $dron := doc('https://raw.githubusercontent.com/santanche/lab2learn/master/data/faers-2017-dron/dron.xml')
+
+for $s in ($sinonimos/PC-DataSet/InformationList/Information/Synonym[1]),
+    $d in ($dron//drug)
+where concat('http://purl.obolibrary.org/obo/CHEBI_',substring($s/text(), 7)) = $d/@id
+
+return { data($d/@id), '&#xa;'}
 ```
