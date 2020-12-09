@@ -180,5 +180,5 @@ for $s in ($sinonimos/PC-DataSet/InformationList/Information/Synonym[1]),
     $d in ($dron//drug)
 where concat('http://purl.obolibrary.org/obo/CHEBI_',substring($s/text(), 7)) = $d/@id
 
-return { data($d/@id), '&#xa;'}
+return { data($d/@id),',', data($s), '&#xa;'}
 ```
